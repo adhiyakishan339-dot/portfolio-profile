@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adhiya Kishan — Full Stack Web Developer</title>
+<meta name="description" content="Adhiya Kishan builds fast, responsive, SEO-friendly websites for businesses, gyms, restaurants and portfolios.">
+
+<!-- Open Graph / social preview cards -->
+<meta property="og:title" content="Adhiya Kishan — Full Stack Web Developer">
+<meta property="og:description" content="Full stack web developer crafting fast, responsive, SEO-friendly websites for businesses, gyms, restaurants and portfolios.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourdomain.com">
+<meta property="og:image" content="https://yourdomain.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Adhiya Kishan — Full Stack Web Developer">
+<meta name="twitter:description" content="Full stack web developer crafting fast, responsive, SEO-friendly websites.">
+<meta name="twitter:image" content="https://yourdomain.com/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F5F9;
+    --panel:#FFFFFF;
+    --ink:#0B1220;
+    --muted:#5B6478;
+    --blueprint:#1E3A8A;
+    --blueprint-deep:#0F2557;
+    --line:#C4CEE0;
+    --line-soft:#DCE3EF;
+    --cyan:#2F7DFF;
+    --amber:#F0A22E;
+    --radius:2px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk',sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--blueprint);color:#fff;}
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+
+  /* blueprint grid backdrop */
+  .grid-bg{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:48px 48px;
+    opacity:0.55;
+  }
+  .grid-bg::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse 900px 500px at 50% -10%, rgba(30,58,138,0.08), transparent 60%);
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+  /* nav */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(243,245,249,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{display:flex;align-items:center;justify-content:space-between;height:64px;position:relative;}
+  .brand{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px;color:var(--blueprint-deep);}
+  .brand .cursor{display:inline-block;width:8px;height:14px;background:var(--amber);margin-left:2px;animation:blink 1.1s steps(1) infinite;vertical-align:-2px;}
+  @keyframes blink{50%{opacity:0;}}
+  nav ul{list-style:none;display:flex;gap:6px;margin:0;padding:0;}
+  nav a{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);
+    padding:8px 12px;border-radius:var(--radius);transition:color .15s ease, background .15s ease;
+  }
+  nav a:hover{color:var(--blueprint-deep);background:var(--line-soft);}
+  .nav-cta{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+    background:var(--blueprint);color:#fff;padding:9px 16px;border-radius:var(--radius);
+    border:1px solid var(--blueprint);
+  }
+  .nav-cta:hover{background:var(--blueprint-deep);}
+  .nav-toggle{
+    display:none;background:none;border:1px solid var(--line);border-radius:var(--radius);
+    padding:8px 10px;font-family:'JetBrains Mono',monospace;color:var(--blueprint-deep);cursor:pointer;
+  }
+  .nav-toggle:hover{border-color:var(--blueprint);}
+
+  /* mobile nav panel */
+  .mobile-nav{
+    display:none;
+    position:absolute;top:64px;left:0;right:0;
+    background:var(--paper);border-bottom:1px solid var(--line);
+    padding:8px 28px 18px;
+    flex-direction:column;gap:2px;
+  }
+  .mobile-nav.open{display:flex;}
+  .mobile-nav a{
+    font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--muted);
+    padding:12px 6px;border-bottom:1px solid var(--line-soft);
+  }
+  .mobile-nav a:hover{color:var(--blueprint-deep);}
+  .mobile-nav .nav-cta{display:inline-block;margin-top:12px;text-align:center;}
+
+  section{position:relative;z-index:1;padding:96px 0;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--blueprint);
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;letter-spacing:.02em;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--blueprint);display:inline-block;}
+  .eyebrow .path{color:var(--muted);}
+
+  /* HERO */
+  .hero{padding:72px 0 100px;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+  .status-pill{
+    display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;
+    color:#16794D;background:#E8F6EE;border:1px solid #BFE6CE;padding:6px 12px;border-radius:20px;margin-bottom:22px;
+  }
+  .status-pill .dot{width:7px;height:7px;background:#22A15E;border-radius:50%;animation:pulse 1.8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .hero h1{
+    font-size:clamp(34px,5vw,58px);line-height:1.05;font-weight:700;color:var(--blueprint-deep);
+  }
+  .hero h1 .accent{color:var(--blueprint);}
+  .hero p.lead{
+    margin-top:20px;font-size:17px;line-height:1.65;color:var(--muted);max-width:46ch;
+  }
+  .hero-ctas{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;padding:13px 22px;
+    border-radius:var(--radius);border:1px solid transparent;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-primary{background:var(--blueprint);color:#fff;}
+  .btn-primary:hover{background:var(--blueprint-deep);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--blueprint-deep);border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--blueprint);background:var(--panel);}
+
+  .dims{display:flex;gap:34px;margin-top:48px;flex-wrap:wrap;}
+  .dim{font-family:'JetBrains Mono',monospace;}
+  .dim .num{font-size:26px;font-weight:600;color:var(--blueprint-deep);}
+  .dim .lbl{font-size:11.5px;color:var(--muted);letter-spacing:.03em;}
+
+  /* blueprint browser mock */
+  .blueprint-card{
+    position:relative;border:1.5px dashed var(--blueprint);border-radius:6px;
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:16px 16px;
+    background-color:rgba(255,255,255,0.5);
+    padding:18px;
+  }
+  .tick{position:absolute;width:14px;height:14px;border-color:var(--blueprint-deep);border-style:solid;}
+  .tick.tl{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+  .tick.tr{top:-1px;right:-1px;border-width:2px 2px 0 0;}
+  .tick.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;}
+  .tick.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+  .browser-bar{display:flex;align-items:center;gap:6px;padding:0 0 12px 2px;}
+  .browser-bar span{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--blueprint);}
+  .browser-url{
+    flex:1;margin-left:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blueprint-deep);
+    border:1px solid var(--line);border-radius:20px;padding:5px 12px;background:#fff;
+  }
+  .mock-body{background:#fff;border:1px solid var(--line);border-radius:4px;padding:20px;min-height:280px;position:relative;overflow:hidden;}
+  .mock-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+  .mock-logo{width:64px;height:10px;background:var(--blueprint);border-radius:2px;}
+  .mock-links{display:flex;gap:10px;}
+  .mock-links span{width:26px;height:6px;background:var(--line);border-radius:2px;}
+  .mock-hero-line{height:14px;background:var(--blueprint-deep);border-radius:2px;width:78%;margin-bottom:10px;}
+  .mock-hero-line.short{width:52%;background:var(--line);}
+  .mock-btn{width:88px;height:24px;background:var(--amber);border-radius:2px;margin-top:16px;}
+  .mock-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:26px;}
+  .mock-cards div{height:52px;background:var(--line-soft);border:1px solid var(--line);border-radius:3px;}
+  .dim-line{position:absolute;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--blueprint);}
+  .dim-line.w{top:-22px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .dim-line.w::before,.dim-line.w::after{content:"";flex:1;height:1px;background:var(--blueprint);opacity:.5;}
+
+  /* generic panel/card */
+  .panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  }
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+  .about h2{font-size:clamp(26px,3.2vw,36px);color:var(--blueprint-deep);}
+  .about p{margin-top:18px;color:var(--muted);line-height:1.7;font-size:15.5px;}
+  .fact-list{margin-top:28px;border-top:1px solid var(--line);}
+  .fact-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px;}
+  .fact-row .k{font-family:'JetBrains Mono',monospace;color:var(--muted);}
+  .fact-row .v{font-weight:600;color:var(--blueprint-deep);}
+  .trait-cards{display:grid;gap:14px;}
+  .trait-card{padding:22px;position:relative;}
+  .trait-card .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blueprint);margin-bottom:8px;display:block;}
+  .trait-card h3{font-size:17px;color:var(--blueprint-deep);margin-bottom:6px;}
+  .trait-card p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5;}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:44px 56px;margin-top:40px;}
+  .skill-group h3{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--blueprint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+  .skill-row{margin-bottom:16px;}
+  .skill-top{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px;}
+  .skill-top .val{font-family:'JetBrains Mono',monospace;color:var(--muted);}
+  .meter{height:6px;background:var(--line-soft);border-radius:3px;overflow:hidden;position:relative;}
+  .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--blueprint),var(--cyan));border-radius:3px;width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1);}
+
+  /* SERVICES */
+  .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;}
+  .service-card{padding:24px 20px;transition:border-color .15s ease, transform .15s ease;}
+  .service-card:hover{border-color:var(--blueprint);transform:translateY(-3px);}
+  .service-card .ext{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);background:#FBF1E1;border:1px solid #F0DBB2;padding:3px 8px;border-radius:3px;display:inline-block;margin-bottom:14px;}
+  .service-card h3{font-size:16px;color:var(--blueprint-deep);margin-bottom:6px;}
+  .service-card p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.5;}
+
+  /* PROJECTS */
+  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;}
+  .project-card{overflow:hidden;display:flex;flex-direction:column;}
+  .project-top{height:120px;background:
+      repeating-linear-gradient(135deg, var(--blueprint-deep), var(--blueprint-deep) 2px, var(--blueprint) 2px, var(--blueprint) 4px);
+      position:relative;display:flex;align-items:flex-end;padding:14px 18px;}
+  .project-top .badge{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:#fff;letter-spacing:.02em;}
+  .project-top .kind{position:absolute;top:14px;right:16px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.85);}
+  .project-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1;}
+  .project-body h3{font-size:17px;color:var(--blueprint-deep);}
+  .project-body p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55;flex:1;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+  .pill{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blueprint-deep);background:var(--line-soft);border:1px solid var(--line);padding:4px 9px;border-radius:20px;}
+
+  /* TESTIMONIALS */
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
+  .testi-card{padding:26px;}
+  .testi-card .quote{font-size:14.5px;color:var(--ink);line-height:1.6;}
+  .testi-card .quote::before{content:"\201C";color:var(--blueprint);font-family:'Space Grotesk',sans-serif;font-size:28px;line-height:0;vertical-align:-6px;margin-right:2px;}
+  .testi-who{display:flex;align-items:center;gap:10px;margin-top:18px;}
+  .testi-who .av{width:34px;height:34px;border-radius:50%;background:var(--blueprint);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;}
+  .testi-who .name{font-size:13.5px;font-weight:600;color:var(--blueprint-deep);}
+  .testi-who .role{font-size:12px;color:var(--muted);}
+
+  /* CTA BAND */
+  .cta-band{
+    background:var(--blueprint-deep);color:#fff;border-radius:6px;padding:56px 48px;
+    display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;
+    background-image:linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size:32px 32px;
+  }
+  .cta-band h2{font-size:clamp(22px,3vw,30px);max-width:24ch;}
+  .cta-band p{color:rgba(255,255,255,.7);margin-top:10px;font-size:14.5px;}
+  .cta-buttons{display:flex;gap:12px;flex-wrap:wrap;}
+  .cta-band .btn-primary{background:var(--amber);color:var(--blueprint-deep);}
+  .cta-band .btn-primary:hover{background:#e6941c;}
+  .cta-band .btn-ghost{color:#fff;border-color:rgba(255,255,255,.35);}
+  .cta-band .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08);}
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;margin-top:40px;}
+  .contact-info .item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);}
+  .contact-info .item .k{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--blueprint);width:110px;flex-shrink:0;padding-top:2px;}
+  .contact-info .item .v{font-size:14.5px;color:var(--ink);font-weight:500;}
+  .contact-info .item .v a:hover{color:var(--blueprint);}
+  .form-panel{padding:32px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-bottom:7px;}
+  .field input,.field textarea{
+    width:100%;border:1px solid var(--line);border-radius:3px;padding:11px 13px;font-family:'Inter',sans-serif;font-size:14px;
+    background:var(--paper);color:var(--ink);transition:border-color .15s ease;
+  }
+  .field input:focus,.field textarea:focus{border-color:var(--blueprint);outline:none;}
+  .field textarea{resize:vertical;min-height:110px;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  /* honeypot field: hidden from real users, visible to bots that fill every field */
+  .hp-field{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  .foot-row .mono{font-size:12px;color:var(--muted);}
+  .foot-links{display:flex;gap:18px;}
+  .foot-links a{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+  .foot-links a:hover{color:var(--blueprint);}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    .status-pill .dot,.brand .cursor{animation:none;}
+  }
+
+  @media (max-width:960px){
+    .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr;}
+    .skills-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:repeat(2,1fr);}
+    .projects-grid{grid-template-columns:1fr;}
+    .testi-grid{grid-template-columns:1fr;}
+    nav ul{display:none;}
+    .nav-toggle{display:inline-block;}
+  }
+  @media (max-width:600px){
+    section{padding:64px 0;}
+    .services-grid{grid-template-columns:1fr;}
+    .two-col{grid-template-columns:1fr;}
+    .dims{gap:22px;}
+    .nav-cta{display:none;}
+  }
+</style>
+
+
+
+
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header>
+  <div class="wrap nav-row">
+    <div class="brand">~/adhiya-kishan<span class="cursor"></span></div>
+    <nav>
+      <ul>
+        <li><a href="#about">/about</a></li>
+        <li><a href="#skills">/skills</a></li>
+        <li><a href="#projects">/projects</a></li>
+        <li><a href="#services">/services</a></li>
+        <li><a href="#contact">/contact</a></li>
+      </ul>
+    </nav>
+    <a href="#contact" class="nav-cta">Hire me</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileNav">☰ Menu</button>
+    <nav class="mobile-nav" id="mobileNav">
+      <a href="#about">/about</a>
+      <a href="#skills">/skills</a>
+      <a href="#projects">/projects</a>
+      <a href="#services">/services</a>
+      <a href="#contact">/contact</a>
+      <a href="#contact" class="nav-cta">Hire me</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="status-pill"><span class="dot"></span>Available for freelance projects</div>
+        <h1>I build the web for<br><span class="accent">growing businesses.</span></h1>
+        <p class="lead">Full stack developer and BCA graduate crafting fast, responsive, SEO-friendly websites — from first sketch to a live site your customers can find.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary">Hire me →</a>
+          <a href="#projects" class="btn btn-ghost">View projects</a>
+        </div>
+        <div class="dims">
+          <div class="dim"><div class="num">15+</div><div class="lbl">PROJECTS SHIPPED</div></div>
+          <div class="dim"><div class="num">80%</div><div class="lbl">BCA SCORE</div></div>
+          <div class="dim"><div class="num">100%</div><div class="lbl">RESPONSIVE</div></div>
+          <div class="dim"><div class="num">24h</div><div class="lbl">REPLY TIME</div></div>
+        </div>
+      </div>
+
+      <div class="blueprint-card reveal">
+        <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+        <div class="browser-bar">
+          <span></span><span></span><span></span>
+          <div class="browser-url">yourdreamwebsite.com</div>
+        </div>
+        <div class="mock-body">
+          <div class="dim-line w">BUILT WITH REACT · PHP · MYSQL</div>
+          <div class="mock-nav">
+            <div class="mock-logo"></div>
+            <div class="mock-links"><span></span><span></span><span></span></div>
+          </div>
+          <div class="mock-hero-line"></div>
+          <div class="mock-hero-line short"></div>
+          <div class="mock-btn"></div>
+          <div class="mock-cards"><div></div><div></div><div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="about reveal">
+        <div class="eyebrow"><span class="path">01</span> About</div>
+        <h2>Passionate about building the web, one clean commit at a time.</h2>
+        <p>I'm Adhiya Kishan, a full stack web developer and BCA graduate who has maintained roughly 80% across every semester while specialising in web technologies, programming and database systems.</p>
+        <p>I design and build modern, responsive, user-friendly websites for businesses and individuals — sites that are fast, attractive on any screen, and tuned for search from day one.</p>
+        <div class="fact-list">
+          <div class="fact-row"><span class="k">name</span><span class="v">Adhiya Kishan</span></div>
+          <div class="fact-row"><span class="k">role</span><span class="v">Full Stack Developer</span></div>
+          <div class="fact-row"><span class="k">education</span><span class="v">BCA — 80% average</span></div>
+          <div class="fact-row"><span class="k">availability</span><span class="v">Freelance / Full-time</span></div>
+          <div class="fact-row"><span class="k">stack</span><span class="v">React · PHP · MySQL</span></div>
+        </div>
+      </div>
+      <div class="trait-cards">
+        <div class="panel trait-card reveal">
+          <span class="tag">// education</span>
+          <h3>BCA graduate</h3>
+          <p>Bachelor of Computer Applications, ~80% throughout every semester, focused on web development, programming, and database management.</p>
+        </div>
+        <div class="panel trait-card reveal">
+          <span class="tag">// availability</span>
+          <h3>Freelance ready</h3>
+          <p>Building business sites, portfolios and custom web apps for clients across India and worldwide.</p>
+        </div>
+        <div class="panel trait-card reveal">
+          <span class="tag">// standard</span>
+          <h3>Quality by default</h3>
+          <p>Clean, SEO-friendly, performance-tuned code — no shortcuts that slow your site down later.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="eyebrow"><span class="path">02</span> Skills</div>
+      <h2 style="font-size:clamp(26px,3.2vw,36px);color:var(--blueprint-deep);">A stack tuned for production-ready websites.</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3>Languages</h3>
+          <div class="skill-row"><div class="skill-top"><span>JavaScript</span><span class="val">88%</span></div><div class="meter"><i data-w="88"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>C</span><span class="val">85%</span></div><div class="meter"><i data-w="85"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>C++</span><span class="val">80%</span></div><div class="meter"><i data-w="80"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>C#</span><span class="val">78%</span></div><div class="meter"><i data-w="78"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>Python</span><span class="val">75%</span></div><div class="meter"><i data-w="75"></i></div></div>
+        </div>
+        <div class="skill-group">
+          <h3>Frontend</h3>
+          <div class="skill-row"><div class="skill-top"><span>HTML5</span><span class="val">95%</span></div><div class="meter"><i data-w="95"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>CSS3</span><span class="val">92%</span></div><div class="meter"><i data-w="92"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>Bootstrap</span><span class="val">90%</span></div><div class="meter"><i data-w="90"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>React JS</span><span class="val">85%</span></div><div class="meter"><i data-w="85"></i></div></div>
+        </div>
+        <div class="skill-group">
+          <h3>Backend &amp; database</h3>
+          <div class="skill-row"><div class="skill-top"><span>PHP</span><span class="val">88%</span></div><div class="meter"><i data-w="88"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>MySQL</span><span class="val">85%</span></div><div class="meter"><i data-w="85"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>DBMS</span><span class="val">82%</span></div><div class="meter"><i data-w="82"></i></div></div>
+        </div>
+        <div class="skill-group">
+          <h3>Other</h3>
+          <div class="skill-row"><div class="skill-top"><span>Responsive design</span><span class="val">95%</span></div><div class="meter"><i data-w="95"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>Problem solving</span><span class="val">90%</span></div><div class="meter"><i data-w="90"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>UI/UX design</span><span class="val">85%</span></div><div class="meter"><i data-w="85"></i></div></div>
+          <div class="skill-row"><div class="skill-top"><span>Deployment</span><span class="val">82%</span></div><div class="meter"><i data-w="82"></i></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="eyebrow"><span class="path">03</span> Services</div>
+      <h2 style="font-size:clamp(26px,3.2vw,36px);color:var(--blueprint-deep);">What I can build for you.</h2>
+      <div class="services-grid">
+        <div class="panel service-card reveal"><span class="ext">.biz</span><h3>Business websites</h3><p>Modern company sites that turn visitors into customers.</p></div>
+        <div class="panel service-card reveal"><span class="ext">.me</span><h3>Portfolio websites</h3><p>Elegant personal portfolios that showcase your work.</p></div>
+        <div class="panel service-card reveal"><span class="ext">.page</span><h3>Landing pages</h3><p>High-converting single pages built for campaigns.</p></div>
+        <div class="panel service-card reveal"><span class="ext">.app</span><h3>Custom web apps</h3><p>Tailor-made web applications with clean architecture.</p></div>
+        <div class="panel service-card reveal"><span class="ext">.fit</span><h3>Gym &amp; fitness sites</h3><p>Membership plans, schedules, trainers and diet plans.</p></div>
+        <div class="panel service-card reveal"><span class="ext">.food</span><h3>Restaurant websites</h3><p>Menus, reservations and beautiful presentation.</p></div>
+        <div class="panel service-card reveal"><span class="ext">.new</span><h3>Website redesign</h3><p>Refresh an outdated site into a modern experience.</p></div>
+        <div class="panel service-card reveal"><span class="ext">.fix</span><h3>Maintenance &amp; support</h3><p>Ongoing updates, fixes and performance tuning.</p></div>
+      </div>
+    </div>
+  </section>
+
+ <!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow"><span class="path">04</span> Projects</div>
+
+    <h2 style="font-size:clamp(26px,3.2vw,36px);color:var(--blueprint-deep);">
+      A few things I've designed and built.
+    </h2>
+
+    <div class="projects-grid">
+
+      <!-- Bharat Fabrication -->
+      <div class="panel project-card reveal">
+        <div class="project-top">
+          <span class="kind">BUSINESS WEBSITE</span>
+          <span class="badge">BF</span>
+        </div>
+
+        <div class="project-body">
+          <h3>Bharat Fabrication</h3>
+
+          <p>
+            Complete responsive business website with a modern UI,
+            company info, services overview and a working contact section.
+          </p>
+
+          <div class="tag-row">
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">Responsive</span>
+          </div>
+
+          <div class="project-links" style="margin-top:18px;">
+            <a href="https://bharatfabrication.online/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn">
+              🌐 Live Website
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gym Management -->
+      <div class="panel project-card reveal">
+        <div class="project-top">
+          <span class="kind">FITNESS / BUSINESS</span>
+          <span class="badge">GM</span>
+        </div>
+
+        <div class="project-body">
+          <h3>Gym Management Website</h3>
+
+          <p>
+            Responsive gym site with membership plans, training schedules,
+            diet plans, trainer profiles and contact.
+          </p>
+
+          <div class="tag-row">
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">Bootstrap</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Restaurant Billing -->
+      <div class="panel project-card reveal">
+        <div class="project-top">
+          <span class="kind">WINDOWS APPLICATION</span>
+          <span class="badge">RB</span>
+        </div>
+
+        <div class="project-body">
+          <h3>Restaurant Billing System</h3>
+
+          <p>
+            Internship project built with C# Windows Forms and MS Access —
+            order management, multi-table billing and invoice generation.
+          </p>
+
+          <div class="tag-row">
+            <span class="pill">C#</span>
+            <span class="pill">WinForms</span>
+            <span class="pill">MS Access</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="wrap">
+      <div class="eyebrow"><span class="path">05</span> Testimonials</div>
+      <h2 style="font-size:clamp(26px,3.2vw,36px);color:var(--blueprint-deep);">What clients say.</h2>
+      <div class="testi-grid">
+        <div class="panel testi-card reveal">
+          <p class="quote">Kishan delivered our website ahead of schedule and the design is spot on. Highly recommend.</p>
+          <div class="testi-who"><div class="av">TB</div><div><div class="name">Tejas Bamaniya</div><div class="role">Business Owner</div></div></div>
+        </div>
+        <div class="panel testi-card reveal">
+          <p class="quote">Clean, responsive, and exactly what we needed. The whole process felt effortless.</p>
+          <div class="testi-who"><div class="av">RO</div><div><div class="name">Rahul Odedara</div><div class="role">Gym Founder</div></div></div>
+        </div>
+        <div class="panel testi-card reveal">
+          <p class="quote">Great communication and fantastic quality. The site looks premium and loads super fast.</p>
+          <div class="testi-who"><div class="av">KV</div><div><div class="name">Karan V.</div><div class="role">Restaurant Owner</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section>
+    <div class="wrap">
+      <div class="cta-band reveal">
+        <div>
+          <h2>Need a professional website?</h2>
+          <p>Let's build your dream website together — modern, responsive, and made to convert.</p>
+        </div>
+        <div class="cta-buttons">
+          <a href="#contact" class="btn btn-primary">Contact me →</a>
+          <a href="https://wa.me/918200894686" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="eyebrow"><span class="path">06</span> Contact</div>
+      <h2 style="font-size:clamp(26px,3.2vw,36px);color:var(--blueprint-deep);">Let's build something great.</h2>
+      <p style="color:var(--muted);margin-top:12px;max-width:50ch;">Tell me about your project and I'll get back to you within 24 hours.</p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="item"><span class="k">email</span><span class="v"><a href="#" class="js-email" data-user="adhiyakishan339" data-domain="example.com">Reveal email</a></span></div>
+          <div class="item"><span class="k">phone / whatsapp</span><span class="v"><a href="https://wa.me/918200894686" target="_blank" rel="noopener noreferrer">+91 82008 94686</a></span></div>
+          <div class="item"><span class="k">location</span><span class="v">India — available worldwide</span></div>
+          <div class="item"><span class="k">status</span><span class="v">Open to freelance &amp; full-time roles</span></div>
+        </div>
+        <!--
+          NOTE: replace YOUR_FORMSUBMIT_HASH below with the activation hash FormSubmit
+          emails you after your first submission to https://formsubmit.co/adhiyakishan339@example.com
+          Using the hashed endpoint (formsubmit.co/YOUR_HASH) instead of the raw email
+          keeps your address out of the page source.
+        -->
+        <form class="panel form-panel" action="https://formsubmit.co/YOUR_FORMSUBMIT_HASH" method="POST">
+          <input type="hidden" name="_subject" value="New project enquiry from portfolio site">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="true">
+          <!-- Honeypot: hidden from humans, bots tend to fill every field -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="_honey">Leave this field empty</label>
+            <input type="text" id="_honey" name="_honey" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="two-col">
+            <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" placeholder="Your name" required></div>
+            <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@example.com" required></div>
+          </div>
+          <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" placeholder="+91 …"></div>
+          <div class="field"><label for="details">Project details</label><textarea id="details" name="details" placeholder="Tell me about your project…" required></textarea></div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span class="mono">© 2026 Adhiya Kishan. All rights reserved.</span>
+    <div class="foot-links">
+      <a href="#" class="js-email" data-user="adhiyakishan339" data-domain="example.com">Email</a>
+      <a href="https://wa.me/918200894686" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // animate skill meters when visible
+  const meters = document.querySelectorAll('.meter i');
+  const mio = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const w = e.target.getAttribute('data-w');
+        e.target.style.width = w + '%';
+        mio.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.4});
+  meters.forEach(m=>mio.observe(m));
+
+  // mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  if (navToggle && mobileNav) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = mobileNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      navToggle.textContent = isOpen ? '✕ Close' : '☰ Menu';
+    });
+    // close the mobile menu after a link is tapped
+    mobileNav.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=>{
+        mobileNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.textContent = '☰ Menu';
+      });
+    });
+  }
+
+  // build mailto links at click-time so the raw email never sits in page source
+  document.querySelectorAll('.js-email').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const user = el.getAttribute('data-user');
+      const domain = el.getAttribute('data-domain');
+      window.location.href = 'mailto:' + user + '@' + domain;
+    });
+  });
+</script>
+</body>
+</html>
